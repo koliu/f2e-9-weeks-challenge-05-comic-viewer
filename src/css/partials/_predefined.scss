@@ -1,0 +1,73 @@
+/* background classes */
+.bg-black {
+  background-color: $color-black;
+}
+.bg-white {
+  background-color: $color-white;
+}
+
+/* border classes */
+.radius {
+  border-radius: 3px;
+}
+
+/* color classes */
+.black {
+  color: $color-black;
+}
+.blue {
+  color: $color-blue;
+}
+.gray {
+  color: $color-gray;
+}
+.green {
+  color: $color-green;
+}
+.red {
+  color: $color-red;
+}
+.white {
+  color: $color-white;
+}
+
+/* font classes */
+.bold {
+  font-weight: bold;
+}
+.italic {
+  font-style: italic;
+}
+.f-logo {
+  font-size: 36px;
+  font-weight: bold;
+  font-style: italic;
+}
+.f-title {
+  font-size: 36px;
+  font-weight: bold;
+}
+.f-title2 {
+  font-size: 24px;
+  font-weight: bold;
+}
+.f-title3 {
+  font-size: 20px;
+  font-weight: bold;
+}
+.f-sub-title {
+  font-size: 16px;
+  font-weight: bold;
+}
+.f-paragraph {
+  font-size: 16px;
+}
+.f-label {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* padding classes */
+.pr-5 {
+  padding-right: 5px;
+}
