@@ -12,15 +12,15 @@
         br
         i 這裡是攻打 F2E 的第 5 座城堡 -- Comic Viewer
         br
-        i 目前已攻下： 
+        i 目前已攻下： page-home, page-home-ad
         br
-        i 待進攻： 
+        i 待進攻： page-reading, page-reading-ad, dark, bright
         br
         i 採用的武器有
         br
         ul
           li css flex
-          li css animation/transition
+          li vue
           li scss
           li pug
       //- .about-item(@click.stop="() => {}")

@@ -1,10 +1,10 @@
-# No.
+# No.5 Comic Viewer
 
 ---
 
-## [DEMO](https://koliu.github.io/........./dist/)
+## [DEMO](dist/)
 
-## spec
+## [spec](https://hexschool.github.io/THE_F2E_Design/week5-comic%20viewer)
 
 
 
