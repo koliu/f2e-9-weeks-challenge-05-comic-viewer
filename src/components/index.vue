@@ -1,7 +1,5 @@
 <template lang="pug">
 #app
-  button#btn-about(@click="showAbout=true") ABOUT
-  about(@close="hideAbout" v-if="showAbout")
   button.btn-login(@click="loggedIn = true", v-if="!loggedIn") LOGIN
   button.btn-login(@click="loggedIn = false", v-if="loggedIn") LOGOUT
   .header.bg-black.green.f-logo Comicomic
@@ -38,8 +36,8 @@
     .chapters
       .title.f-title2.bg-black.white All Chapters
       ul.list
-        li.item.f-sub-title Chapter 1: The F2E Challenge Start!
-        li.item.f-sub-title.new(@click:prevent="") Chapter 2: Todo List is Going Crazy!
+        li.item.f-sub-title(@click.prevent="pushTo('/reading/1')") Chapter 1: The F2E Challenge Start!
+        li.item.f-sub-title.new(@click.prevent="pushTo('/reading/2')") Chapter 2: Todo List is Going Crazy!
     img.banner(v-if="!loggedIn", src="/src/static/assets/ad-3.png", alt="HTML 5", title="HTML 5")
 </template>
 <script>
@@ -47,6 +45,11 @@ export default {
   data() {
     return {
       loggedIn: false
+    }
+  },
+  methods: {
+    pushTo (path) {
+      this.$router.push(path)
     }
   }
 }
