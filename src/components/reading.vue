@@ -1,12 +1,12 @@
 <template lang="pug">
 #app
-  button.btn-login(@click="loggedIn = true", v-if="!loggedIn") LOGIN
-  button.btn-login(@click="loggedIn = false", v-if="loggedIn") LOGOUT
+  button.btn-login(@click.prevent="login", v-if="!loggedIn") LOGIN
+  button.btn-login(@click.prevent="logout", v-if="loggedIn") LOGOUT
   .header.bg-black.green.f-logo Comicomic
   .container.bg-black-10
     img.banner(v-if="!loggedIn", src="/src/static/assets/ad-1.png", alt="Vue", title="Vue")
     .header-bar
-      .nav CHAPTER: {{chapter}}
+      .nav {{chapter}}
       .view-mode
     img.banner(v-if="!loggedIn", src="/src/static/assets/ad-2.png", alt="Bootstrap 4", title="Bootstrap 4")
     .main
@@ -19,18 +19,34 @@
     img.banner(v-if="!loggedIn", src="/src/static/assets/ad-3.png", alt="HTML 5", title="HTML 5")
 </template>
 <script>
+import SessionStorage from "../js/session-storage.js";
+
 export default {
   data() {
     return {
       loggedIn: false,
-      chapter: 0
+      chapter: ""
+    };
+  },
+  methods: {
+    login() {
+      this.loginManager.login();
+      this.loggedIn = this.loginManager.isLoggedIn();
+      console.log("reading", "login", this.loggedIn);
+    },
+    logout() {
+      this.loginManager.logout();
+      this.loggedIn = this.loginManager.isLoggedIn();
+      console.log("reading", "logout", this.loggedIn);
     }
   },
-  created () {
-    console.log('created')
+  created() {
     this.chapter = this.$route.params.chapter;
+
+    this.loggedIn = this.loginManager.isLoggedIn();
+    console.log("reading", "created", this.loggedIn);
   }
-}
+};
 </script>
 <style lang="scss" scoped>
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700,900");
@@ -77,8 +93,6 @@ export default {
   }
 
   .main {
-    
   }
-
 }
 </style>

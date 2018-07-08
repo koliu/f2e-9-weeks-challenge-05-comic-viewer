@@ -1,10 +1,10 @@
 <template lang="pug">
 #app
-  button.btn-login(@click="loggedIn = true", v-if="!loggedIn") LOGIN
-  button.btn-login(@click="loggedIn = false", v-if="loggedIn") LOGOUT
+  button.btn-login(@click.prevent="login", v-if="!this.loginManager.isLoggedIn()") LOGIN
+  button.btn-login(@click.prevent="logout", v-if="this.loginManager.isLoggedIn()") LOGOUT
   .header.bg-black.green.f-logo Comicomic
   .container.bg-black-10
-    img.banner(v-if="!loggedIn", src="/src/static/assets/ad-1.png", alt="Vue", title="Vue")
+    img.banner(v-if="!this.loginManager.isLoggedIn()", src="/src/static/assets/ad-1.png", alt="Vue", title="Vue")
     .main
       img.left(src="/src/static/assets/comic cover.png", alt="MY HEXSCHOOL vol.1")
       .right
@@ -32,25 +32,38 @@
             .content
               .paragraph.f-paragraph If your banker breaks, you snap; if your apothecary by mistake sends you poison in your pills, you die. 
               .paragraph.f-paragraph Therefore, I say, I saw that this situation of mine was the precise situation of every mortal that has this Siamese connexion with a plurality of other mortals. 
-    img.banner(v-if="!loggedIn", src="/src/static/assets/ad-2.png", alt="Bootstrap 4", title="Bootstrap 4")
+    img.banner(v-if="!this.loginManager.isLoggedIn()", src="/src/static/assets/ad-2.png", alt="Bootstrap 4", title="Bootstrap 4")
     .chapters
       .title.f-title2.bg-black.white All Chapters
       ul.list
-        li.item.f-sub-title(@click.prevent="pushTo('/reading/1')") Chapter 1: The F2E Challenge Start!
-        li.item.f-sub-title.new(@click.prevent="pushTo('/reading/2')") Chapter 2: Todo List is Going Crazy!
-    img.banner(v-if="!loggedIn", src="/src/static/assets/ad-3.png", alt="HTML 5", title="HTML 5")
+        li.item.f-sub-title(@click.prevent="navigator.pushTo('/reading/chapter1')") Chapter 1: The F2E Challenge Start!
+        li.item.f-sub-title.new(@click.prevent="navigator.pushTo('/reading/chapter2')") Chapter 2: Todo List is Going Crazy!
+    img.banner(v-if="!this.loginManager.isLoggedIn()", src="/src/static/assets/ad-3.png", alt="HTML 5", title="HTML 5")
 </template>
 <script>
 export default {
   data() {
     return {
-      loggedIn: false
     }
   },
   methods: {
-    pushTo (path) {
-      this.$router.push(path)
+    login() {
+      this.loginManager.login();
+      this.loggedIn = this.loginManager.isLoggedIn();
+      this.$forceUpdate();
+      // console.log('index','login',this.loginManager.isLoggedIn());
+    },
+    logout() {
+      this.loginManager.logout();
+      this.$forceUpdate();
+      // console.log('index','logout',this.loginManager.isLoggedIn());
     }
+  },
+  create() {
+    console.log('index','create',this.loginManager.isLoggedIn());
+  },
+  updated() {
+    console.log('index', 'updated', this.loginManager.isLoggedIn());
   }
 }
 </script>
@@ -77,14 +90,12 @@ export default {
     font-weight: bolder;
   }
 }
-
 .header {
   height: 74px;
   line-height: 74px;
   min-width: 1024px;
   text-align: center;
 }
-
 .container {
   align-items: center;
   display: flex;

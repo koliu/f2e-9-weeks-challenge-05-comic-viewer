@@ -7,11 +7,17 @@ export default {
   routes: [
     {
       path: "/index",
-      component: Index
+      component: Index,
+      props: {
+        loggedIn: true
+      }
     },
     {
       path: "/reading/:chapter",
-      component: Reading
+      component: Reading,
+      props: {
+        loggedIn: true
+      }
     },
     {
       path: "/spec",

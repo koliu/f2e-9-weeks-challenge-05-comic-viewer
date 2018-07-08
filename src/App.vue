@@ -5,9 +5,29 @@
       router-link(to="/spec") Spec
       router-link(to="/about") About
     div
-      router-view
+      transition(name="fade")
+        //- keep-alive
+        router-view
 </template>
+<script>
+export default {
+  data() {
+    return {
+    }
+  },
+  watch: {
+  },
+  methods: {
+  }
+}
+</script>
 <style lang="scss" scoped>
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700,900");
+@import "./css/partials/variables";
+@import "./css/partials/predefined";
+@import "./css/partials/animations";
+@import "./css/partials/text-utils";
+
 .menu {
   background-color: rgba(0, 0, 0, 0.9);
   border: 1px dotted #f5a623;
