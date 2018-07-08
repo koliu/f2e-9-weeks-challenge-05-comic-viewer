@@ -1,27 +1,34 @@
 import resetCSS from "../css/reset.css";
 import style from "../css/main.scss";
-import Vue from "./vue.js";
 // import axios from "./axios.min.js";
+import Vue from "vue";
+import VueRouter from "vue-router";
+import routerConfig from "./router";
 
 /* vue components */
-import about from "../components/about.vue";
+import App from "../app.vue";
 
-Vue.filter("formatCurrency", n => new Intl.NumberFormat().format(n));
+/* custom libs */
+import Navigator from "./my-vue-navigator";
+import Login from "./login";
+
+Vue.use(VueRouter);
+const router = new VueRouter(routerConfig);
+
+Vue.mixin({
+  data() {
+    return {
+      navigator: Navigator,
+      loginManager: Login
+    };
+  },
+  created() {
+    Navigator.context = this;
+  }
+});
 
 new Vue({
   el: "#app",
-  data: {
-    showAbout: false,
-    loggedIn: false
-  },
-  components: {
-    about
-  },
-  methods: {
-    hideAbout() {
-      this.showAbout = false;
-    }
-  },
-  computed: {},
-  created() {}
+  router,
+  render: h => h(App)
 });
