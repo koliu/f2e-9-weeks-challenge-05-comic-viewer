@@ -1,5 +1,5 @@
 <template lang="pug">
-#app
+.app
   button.btn-login(@click.prevent="login", v-if="!this.loginManager.isLoggedIn()") LOGIN
   button.btn-login(@click.prevent="logout", v-if="this.loginManager.isLoggedIn()") LOGOUT
   .header.bg-black.green.f-logo Comicomic
@@ -36,14 +36,16 @@
     .chapters
       .title.f-title2.bg-black.white All Chapters
       ul.list
-        li.item.f-sub-title(@click.prevent="navigator.pushTo('/reading/chapter1')") Chapter 1: The F2E Challenge Start!
-        li.item.f-sub-title.new(@click.prevent="navigator.pushTo('/reading/chapter2')") Chapter 2: Todo List is Going Crazy!
+        li.item.f-sub-title(v-for="item in chapters", @click.prevent="navigator.pushTo(`/reading/${item.id}`)" :class="{'new':item.new}") {{item.title}}: {{item.desc}}
     img.banner(v-if="!this.loginManager.isLoggedIn()", src="/src/static/assets/ad-3.png", alt="HTML 5", title="HTML 5")
 </template>
 <script>
+import Data from "../data/data.js";
+
 export default {
   data() {
     return {
+      chapters: []
     }
   },
   methods: {
@@ -51,19 +53,14 @@ export default {
       this.loginManager.login();
       this.loggedIn = this.loginManager.isLoggedIn();
       this.$forceUpdate();
-      // console.log('index','login',this.loginManager.isLoggedIn());
     },
     logout() {
       this.loginManager.logout();
       this.$forceUpdate();
-      // console.log('index','logout',this.loginManager.isLoggedIn());
     }
   },
-  create() {
-    console.log('index','create',this.loginManager.isLoggedIn());
-  },
-  updated() {
-    console.log('index', 'updated', this.loginManager.isLoggedIn());
+  created() {
+    this.chapters = Data.chapters.map(e => ({id: e.id, title: e.title, desc: e.desc, new: e.new}));
   }
 }
 </script>
