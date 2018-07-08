@@ -1,5 +1,5 @@
 <template lang="pug">
-#app
+#app(:class="{'dark-mode' : isDark}")
   button.btn-login(@click.prevent="login", v-if="!loggedIn") LOGIN
   button.btn-login(@click.prevent="logout", v-if="loggedIn") LOGOUT
   .header.bg-black.green.f-logo Comicomic
@@ -8,6 +8,10 @@
     .header-bar
       .nav {{chapter}}
       .view-mode
+        i.fas.fa-sun
+        input(id="viewMode" type="checkbox" name="viewMode" v-model="isDark")
+        label(for="viewMode")
+        i.fas.fa-moon
     img.banner(v-if="!loggedIn", src="/src/static/assets/ad-2.png", alt="Bootstrap 4", title="Bootstrap 4")
     .main
       .content
@@ -25,7 +29,8 @@ export default {
   data() {
     return {
       loggedIn: false,
-      chapter: ""
+      chapter: "",
+      isDark: false
     };
   },
   methods: {
@@ -93,6 +98,15 @@ export default {
   }
 
   .main {
+  }
+}
+
+.dark-mode {
+  background-color: $color-black;
+
+  .header {
+    background-color: $color-green;
+    color: $color-black;
   }
 }
 </style>
