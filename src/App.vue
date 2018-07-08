@@ -1,10 +1,10 @@
 <template lang="pug">
-  div
+  .wrap
     nav.menu
       router-link(to="/index") Home
       router-link(to="/spec") Spec
       router-link(to="/about") About
-    div
+    .main
       transition(name="fade")
         //- keep-alive
         router-view
@@ -27,6 +27,10 @@ export default {
 @import "./css/partials/predefined";
 @import "./css/partials/animations";
 @import "./css/partials/text-utils";
+
+.wrap, .main {
+  height: 100%;
+}
 
 .menu {
   background-color: rgba(0, 0, 0, 0.9);

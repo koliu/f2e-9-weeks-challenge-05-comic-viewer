@@ -1,8 +1,8 @@
 <template lang="pug">
-#app(:class="{'dark-mode' : isDark}")
+.app(:class="{'dark-mode' : isDark}")
   button.btn-login(@click.prevent="login", v-if="!loggedIn") LOGIN
   button.btn-login(@click.prevent="logout", v-if="loggedIn") LOGOUT
-  .header.bg-black.green.f-logo Comicomic
+  .header.bg-black.green.f-logo(@click.prevent="navigator.pushTo('../index')") Comicomic
   .container.bg-black-10
     img.banner(v-if="!loggedIn", src="/src/static/assets/ad-1.png", alt="Vue", title="Vue")
     .header-bar
@@ -89,7 +89,9 @@ export default {
 @import "../css/partials/predefined";
 @import "../css/partials/animations";
 @import "../css/partials/text-utils";
-
+.app{
+  height: 100%;
+}
 .btn-login {
   border: 1px dashed $color-yellow;
   background: rgba(255, 255, 255, 0.3);
@@ -108,6 +110,7 @@ export default {
 }
 
 .header {
+  cursor: pointer;
   height: 74px;
   line-height: 74px;
   min-width: 1024px;
@@ -118,6 +121,7 @@ export default {
   align-items: center;
   display: flex;
   flex-flow: column wrap;
+  min-height: 100%;
   padding-bottom: 24px;
 
   .banner {
@@ -136,7 +140,7 @@ export default {
   display: flex;
   height: 35px;
   justify-content: space-between;
-  margin: 24px 0;
+  margin-top: 24px;
   transition: background-color 0.5s ease-in 0.2s, color 0.5s ease 0.2s;
   width: 620px;
 
