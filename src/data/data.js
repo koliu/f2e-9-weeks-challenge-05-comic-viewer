@@ -13,10 +13,10 @@ const chapter2 = {
   images: []
 };
 for (let i = 0; i < 12; ) {
-  chapter1.images[i] = `../static/assets/storyboard-${++i}.png`;
+  chapter1.images[i] = `../src/static/assets/storyboard-${++i}.png`;
 }
 for (let i = 0; i < 6; ) {
-  chapter2.images[i] = `../static/assets/storyboard-${++i}.png`;
+  chapter2.images[i] = `../src/static/assets/storyboard-${++i}.png`;
 }
 
 export default {

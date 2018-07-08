@@ -11,9 +11,9 @@
         i.f-title3.fas.fa-caret-right
         .selection
           select.f-sub-title(v-model="selectedChapterId")
-            option(v-for="(item, index) in chapters" :value="item.id") {{item.title}}
+            option(v-for="(item, index) in chapters" :value="item.id" :key="index") {{item.title}}
           select.f-sub-title(v-model="selectedPage")
-            option(v-for="(item, index) in selectedChapter.images" :value="index") Page {{index + 1}}
+            option(v-for="(item, index) in selectedChapter.images" :value="index" :key="index") Page {{index + 1}}
       .view-mode
         i.fas.fa-sun
         input(id="viewMode" type="checkbox" name="viewMode" v-model="isDark")
@@ -22,11 +22,16 @@
     img.banner(v-if="!loggedIn", src="/src/static/assets/ad-2.png", alt="Bootstrap 4", title="Bootstrap 4")
     .main
       .content
-        .left
-        .center
-        .right
-      .previewer
-
+        .left(v-if="currentPage.hasPre", @click.prevent="selectedPage--")
+          i.fas.fa-less-than.f-title
+        img.center(:src="currentPage.src", :alt="currentPage.alt")
+        .right(v-if="currentPage.hasNext", @click.prevent="selectedPage++")
+          i.fas.fa-greater-than.f-title
+      ul.previewer
+        li.item(v-for="(item, index) in selectedChapter.images" :key="index")
+          .no.f-sub-title {{selectedPage === index ? '_' : index + 1}}
+          .img(@click.prevent="selectedPage = index", :class="{'selected':selectedPage===index}")
+            img(:src="item")
     img.banner(v-if="!loggedIn", src="/src/static/assets/ad-3.png", alt="HTML 5", title="HTML 5")
 </template>
 <script>
@@ -68,6 +73,22 @@ export default {
       this.selectedPage = 0;
     }
   },
+  computed: {
+    currentPage() {
+      const obj = { src: "", alt: "", hasNext: false, hasPre: false };
+      let s = this.selectedChapter;
+      if (s && this.selectedPage < s.images.length) {
+        obj.src = s.images[this.selectedPage];
+        obj.alt = `${s.title}: ${s.desc} - Page ${this.selectedPage + 1}`;
+
+        obj.hasNext = this.selectedPage < s.images.length - 1;
+        obj.hasPre = this.selectedPage > 0;
+      }
+
+      console.log("currentPage", obj, this.selectedChapter, this.selectedPage);
+      return obj;
+    }
+  },
   watch: {
     selectedChapterId() {
       this.navigator.pushTo(this.selectedChapterId);
@@ -89,8 +110,8 @@ export default {
 @import "../css/partials/predefined";
 @import "../css/partials/animations";
 @import "../css/partials/text-utils";
-.app{
-  height: 100%;
+.app {
+  min-height: 100%;
 }
 .btn-login {
   border: 1px dashed $color-yellow;
@@ -121,6 +142,7 @@ export default {
   align-items: center;
   display: flex;
   flex-flow: column wrap;
+  justify-content: center;
   min-height: 100%;
   padding-bottom: 24px;
 
@@ -132,6 +154,97 @@ export default {
   }
 
   .main {
+    align-items: center;
+    display: flex;
+    flex-flow: column wrap;
+    height: 100%;
+    // justify-content: center;
+    width: 780px;
+    .content {
+      align-items: start;
+      display: flex;
+      height: 100%;
+      justify-content: center;
+      margin-top: 24px;
+
+      .right,
+      .left {
+        background-color: $color-black;
+        color: $color-green;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 930px;
+        width: 80px;
+
+        &:hover {
+          background-color: $color-green;
+          color: $color-black;
+        }
+      }
+
+      .center {
+        width: 620px;
+      }
+    }
+
+    .previewer {
+      align-items: start;
+      display: flex;
+      height: 170px;
+      margin-top: 12px;
+      overflow-x: auto;
+      width: 620px;
+
+      .item {
+        align-items: center;
+        cursor: pointer;
+        display: flex;
+        flex-flow: column wrap;
+        padding: 0 13px;
+
+        .img,
+        img {
+          height: 120px;
+          width: 80px;
+        }
+
+        .selected {
+          border: 4px solid $color-black;
+          box-sizing: border-box;
+          position: relative;
+          transform: scale(1.1);
+
+          img {
+            height: 112px;
+            width: 72px;
+          }
+
+          &::before {
+            border-color: transparent transparent $color-black transparent;
+            border-width: 14px;
+            display: block;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            content: "";
+            position: absolute;
+            top: -30px;
+            left: 22px;
+            z-index: 99999;
+          }
+
+          &:hover {
+            border-color: $color-green;
+
+            &::before {
+              border-color: transparent transparent $color-green transparent;
+            }
+          }
+        }
+      }
+    }
   }
 }
 
@@ -211,10 +324,11 @@ export default {
   }
 }
 
-#app,
+.app,
 .header {
   transition: background-color 0.5s ease-in 0.2s, color 0.5s ease 0.2s;
 }
+
 .dark-mode {
   background-color: $color-black;
 

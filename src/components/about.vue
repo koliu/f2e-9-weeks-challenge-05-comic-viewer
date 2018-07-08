@@ -10,15 +10,17 @@
         br
         i 目前已攻下： page-home, page-home-ad
         br
-        i 待進攻： page-reading, page-reading-ad, dark, bright
+        i 進攻中： page-reading, page-reading-ad, dark, bright
         br
         i 採用的武器有
         br
         ul
           li css flex
-          li vue
+          li vue + vue-router
+          //- li vanilla JS flicker
           li scss
           li pug
+          li webpack
 </template>
 
 <script>
