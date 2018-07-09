@@ -23,14 +23,14 @@
     .main
       .content
         .left(v-if="currentPage.hasPre", @click.prevent="selectedPage--")
-          i.fas.fa-less-than.f-title
+          i.fas.fa-angle-left.f-title
         img.center(:src="currentPage.src", :alt="currentPage.alt")
         .right(v-if="currentPage.hasNext", @click.prevent="selectedPage++")
-          i.fas.fa-greater-than.f-title
+          i.fas.fa-angle-right.f-title
       ul.previewer
-        li.item(v-for="(item, index) in selectedChapter.images" :key="index")
+        li.item(v-for="(item, index) in selectedChapter.images" :key="index" :id="'page_' + index")
           .no.f-sub-title {{selectedPage === index ? '_' : index + 1}}
-          .img(@click.prevent="selectedPage = index", :class="{'selected':selectedPage===index}")
+          .img(@click.prevent="selectedPage = index", :class="getPreviewerClasses(index)")
             img(:src="item")
     img.banner(v-if="!loggedIn", src="/src/static/assets/ad-3.png", alt="HTML 5", title="HTML 5")
 </template>
@@ -71,6 +71,19 @@ export default {
         ? this.selectedChapter.id
         : "";
       this.selectedPage = 0;
+    },
+    getPreviewerClasses(index) {
+      if (this.selectedPage === index) {
+        return ({"selected":true});
+      }
+      return ({"filter10":true});
+    },
+    scrollTo(selector) {
+      document.querySelector(selector).scrollIntoView({
+        behavior: 'smooth', //[auto], instant, smooth
+        block: 'center', //start, [center], end, nearest
+        inline: 'center', //start, center, end, [nearest]
+      });
     }
   },
   computed: {
@@ -93,6 +106,9 @@ export default {
     selectedChapterId() {
       this.navigator.pushTo(this.selectedChapterId);
       this.loadData();
+    },
+    selectedPage() {
+      this.scrollTo(`#page_${this.selectedPage}`);
     }
   },
   created() {
@@ -210,9 +226,11 @@ export default {
           width: 80px;
         }
 
+        & > * {
+          box-sizing: border-box;
+        }
         .selected {
           border: 4px solid $color-black;
-          box-sizing: border-box;
           position: relative;
           transform: scale(1.1);
 
@@ -241,6 +259,12 @@ export default {
             &::before {
               border-color: transparent transparent $color-green transparent;
             }
+          }
+        }
+
+        .filter10 {
+          img {
+            filter: brightness(90%);
           }
         }
       }
