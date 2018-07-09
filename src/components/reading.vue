@@ -22,10 +22,10 @@
     img.banner(v-if="!loggedIn", src="/src/static/assets/ad-2.png", alt="Bootstrap 4", title="Bootstrap 4")
     .main
       .content
-        .left(v-if="currentPage.hasPre", @click.prevent="selectedPage--")
+        .left(:class="{'disabled':!currentPage.hasPre}", @click.prevent="currentPage.hasPre && selectedPage--")
           i.fas.fa-angle-left.f-title
         img.center(:src="currentPage.src", :alt="currentPage.alt")
-        .right(v-if="currentPage.hasNext", @click.prevent="selectedPage++")
+        .right(:class="{'disabled':!currentPage.hasNext}", @click.prevent="currentPage.hasNext && selectedPage++")
           i.fas.fa-angle-right.f-title
       ul.previewer
         li.item(v-for="(item, index) in selectedChapter.images" :key="index" :id="'page_' + index")
@@ -74,16 +74,23 @@ export default {
     },
     getPreviewerClasses(index) {
       if (this.selectedPage === index) {
-        return ({"selected":true});
+        return { selected: true };
       }
-      return ({"filter10":true});
+      return { filter10: true };
     },
     scrollTo(selector) {
-      document.querySelector(selector).scrollIntoView({
-        behavior: 'smooth', //[auto], instant, smooth
-        block: 'center', //start, [center], end, nearest
-        inline: 'center', //start, center, end, [nearest]
-      });
+      const target = document.querySelector(selector);
+      const parent = target.parentElement;
+
+      const childWidth = target.offsetWidth;
+      const scrollCenter = 0.5 * (parent.offsetWidth - childWidth);
+      const targetLeft = target.offsetLeft;
+      const parentLeft = parent.offsetLeft;
+      const newLeft = targetLeft - scrollCenter - parentLeft;
+
+      if (newLeft !== parent.scrollLeft) {
+        parent.scrollLeft = newLeft;
+      }
     }
   },
   computed: {
@@ -200,6 +207,17 @@ export default {
         }
       }
 
+      .disabled {
+        background-color: transparent;
+        cursor: default;
+        color: $color-gray;
+
+        &:hover {
+          background-color: transparent;
+          color: $color-gray;
+        }
+      }
+
       .center {
         width: 620px;
       }
@@ -211,6 +229,7 @@ export default {
       height: 170px;
       margin-top: 12px;
       overflow-x: auto;
+      scroll-behavior: smooth;
       width: 620px;
 
       .item {
@@ -229,6 +248,7 @@ export default {
         & > * {
           box-sizing: border-box;
         }
+
         .selected {
           border: 4px solid $color-black;
           position: relative;
@@ -251,14 +271,6 @@ export default {
             top: -30px;
             left: 22px;
             z-index: 99999;
-          }
-
-          &:hover {
-            border-color: $color-green;
-
-            &::before {
-              border-color: transparent transparent $color-green transparent;
-            }
           }
         }
 
@@ -373,6 +385,20 @@ export default {
       &::after {
         background-color: $color-white;
         border-color: $color-white;
+      }
+    }
+  }
+
+  .main {
+    .previewer {
+      .item {
+        .selected {
+          border-color: $color-green;
+
+          &::before {
+            border-color: transparent transparent $color-green transparent;
+          }
+        }
       }
     }
   }
