@@ -3,7 +3,7 @@
   button.btn-login(@click.prevent="login", v-if="!this.loginManager.isLoggedIn()") LOGIN
   button.btn-login(@click.prevent="logout", v-if="this.loginManager.isLoggedIn()") LOGOUT
   .header.bg-black.green.f-logo Comicomic
-  .container.bg-black-10
+  .container.bg-gray
     img.banner(v-if="!this.loginManager.isLoggedIn()", src="/src/static/assets/ad-1.png", alt="Vue", title="Vue")
     .main
       img.left(src="/src/static/assets/comic cover.png", alt="MY HEXSCHOOL vol.1")

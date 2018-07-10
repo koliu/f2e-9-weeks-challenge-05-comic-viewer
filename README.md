@@ -69,3 +69,17 @@ scrollTo(selector) {
   }
 }
 ```
+
+讓每個 item 都能置中
+
+```scss
+.item {
+  /* 讓每個元素都能置中 */
+  &:first-child {
+    padding-left: 258px;
+  }
+  &:last-child {
+    padding-right: 258px;
+  }
+}
+```

@@ -210,11 +210,11 @@ export default {
       .disabled {
         background-color: transparent;
         cursor: default;
-        color: $color-gray;
+        color: $color-black-10;
 
         &:hover {
           background-color: transparent;
-          color: $color-gray;
+          color: $color-black-10;
         }
       }
 
@@ -238,6 +238,14 @@ export default {
         display: flex;
         flex-flow: column wrap;
         padding: 0 13px;
+
+        /* 讓每個元素都能置中 */
+        &:first-child {
+          padding-left: 258px;
+        }
+        &:last-child {
+          padding-right: 258px;
+        }
 
         .img,
         img {
@@ -366,7 +374,9 @@ export default {
 }
 
 .dark-mode {
-  background-color: $color-black;
+  .container {
+    background-color: $color-black;
+  }
 
   .header {
     background-color: $color-green;
