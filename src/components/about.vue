@@ -17,7 +17,7 @@
         ul
           li css flex
           li vue + vue-router
-          //- li vanilla JS flicker
+          li vanilla JS flicker
           li scss
           li pug
           li webpack

@@ -135,6 +135,7 @@ export default {
 @import "../css/partials/text-utils";
 .app {
   min-height: 100%;
+  padding-bottom: 30px;
 }
 .btn-login {
   border: 1px dashed $color-yellow;

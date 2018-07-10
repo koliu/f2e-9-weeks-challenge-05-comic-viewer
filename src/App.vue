@@ -41,9 +41,8 @@ export default {
   line-height: 30px;
   justify-content: flex-end;
   position: fixed;
-  top: 0;
-  right: 0;
-  // width: 100%;
+  bottom: 0;
+  width: 100%;
   z-index: 65535;
 
   a {

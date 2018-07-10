@@ -71,6 +71,10 @@ export default {
 @import "../css/partials/animations";
 @import "../css/partials/text-utils";
 
+.app{  
+  padding-bottom: 30px;
+}
+
 .btn-login {
   border: 1px dashed $color-yellow;
   background: rgba(255, 255, 255, 0.3);
